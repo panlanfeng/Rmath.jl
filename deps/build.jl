@@ -12,6 +12,8 @@ provides(Sources, URI("https://github.com/JuliaLang/Rmath-julia/archive/v$versio
 
 prefix = joinpath(BinDeps.depsdir(libRmath), "usr")
 srcdir = joinpath(BinDeps.srcdir(libRmath), "Rmath-julia-$version")
+dsfmt_libdir = normpath(joinpath(ENV["_"], "../..", "lib/julia/"))
+dsfmt_includedir = normpath(joinpath(ENV["_"], "../..", "include/julia/"))
 
 # These Windows binaries were taken from `make -C deps install-Rmath-julia`
 # in a Cygwin cross-compile from the release-0.4 branch of julia
@@ -30,7 +32,7 @@ provides(SimpleBuild,
         CreateDirectory(joinpath(prefix, "lib"))
         @build_steps begin
             ChangeDirectory(srcdir)
-            `make`
+            `make USE_DSFMT=1 DSFMT_includedir=$(dsfmt_includedir) DSFMT_libdir=$(dsfmt_libdir)`
             `mv src/libRmath-julia.$(Libdl.dlext) $prefix/lib`
         end
     end), [libRmath], os = :Unix)
