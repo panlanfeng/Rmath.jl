@@ -12,6 +12,9 @@ provides(Sources, URI("https://github.com/JuliaLang/Rmath-julia/archive/v$versio
 
 prefix = joinpath(BinDeps.depsdir(libRmath), "usr")
 srcdir = joinpath(BinDeps.srcdir(libRmath), "Rmath-julia-$version")
+
+# Need to copy dSFMT.h file (located in folder `usr/include` of Julia build directory) to 
+# the folder $(dsfmt_includedir) or `julia/include/julia` of installation directory
 dsfmt_libdir = normpath(joinpath(ENV["_"], "../..", "lib/julia/"))
 dsfmt_includedir = normpath(joinpath(ENV["_"], "../..", "include/julia/"))
 
